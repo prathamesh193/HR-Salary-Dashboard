@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4><i class="bi bi-calculator"></i> HR Salary Prediction</h4>
+            </div>
+            <div class="card-body">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endif %}
+                
+                {% if prediction %}
+                    <div class="alert alert-success text-center">
+                        <h4>Predicted Salary: <strong>{{ prediction }}</strong></h4>
+                    </div>
+                {% endif %}
+                
+                <form method="POST" action="/predict">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="department" class="form-label">Department</label>
+                            <select class="form-select" id="department" name="department" required>
+                                <option value="">Select Department</option>
+                                {% for dept in label_encoders['Department'].classes_ %}
+                                    <option value="{{ dept }}" {% if form_data and form_data['department'] == dept %}selected{% endif %}>{{ dept }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="position" class="form-label">Position</label>
+                            <select class="form-select" id="position" name="position" required>
+                                <option value="">Select Position</option>
+                                {% for pos in label_encoders['Position'].classes_ %}
+                                    <option value="{{ pos }}" {% if form_data and form_data['position'] == pos %}selected{% endif %}>{{ pos }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="state" class="form-label">State</label>
+                            <select class="form-select" id="state" name="state" required>
+                                <option value="">Select State</option>
+                                {% for state in label_encoders['State'].classes_ %}
+                                    <option value="{{ state }}" {% if form_data and form_data['state'] == state %}selected{% endif %}>{{ state }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="years_at_company" class="form-label">Years at Company</label>
+                            <input type="number" class="form-control" id="years_at_company" name="years_at_company" 
+                                   step="0.1" min="0" max="50" required
+                                   value="{% if form_data %}{{ form_data['years_at_company'] }}{% else %}5{% endif %}">
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="age" class="form-label">Age</label>
+                            <input type="number" class="form-control" id="age" name="age" 
+                                   min="18" max="70" required
+                                   value="{% if form_data %}{{ form_data['age'] }}{% else %}30{% endif %}">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="engagement" class="form-label">Engagement Survey Score (1-5)</label>
+                            <input type="number" class="form-control" id="engagement" name="engagement" 
+                                   min="1" max="5" step="0.1" required
+                                   value="{% if form_data %}{{ form_data['engagement'] }}{% else %}3.5{% endif %}">
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="satisfaction" class="form-label">Employee Satisfaction (1-5)</label>
+                            <input type="number" class="form-control" id="satisfaction" name="satisfaction" 
+                                   min="1" max="5" required
+                                   value="{% if form_data %}{{ form_data['satisfaction'] }}{% else %}4{% endif %}">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="projects" class="form-label">Special Projects Count</label>
+                            <input type="number" class="form-control" id="projects" name="projects" 
+                                   min="0" max="20" required
+                                   value="{% if form_data %}{{ form_data['projects'] }}{% else %}3{% endif %}">
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="marital_status" class="form-label">Marital Status</label>
+                            <select class="form-select" id="marital_status" name="marital_status" required>
+                                <option value="">Select Marital Status</option>
+                                {% for status in label_encoders['MaritalDesc'].classes_ %}
+                                    <option value="{{ status }}" {% if form_data and form_data['marital_status'] == status %}selected{% endif %}>{{ status }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="race" class="form-label">Race</label>
+                            <select class="form-select" id="race" name="race" required>
+                                <option value="">Select Race</option>
+                                {% for race in label_encoders['RaceDesc'].classes_ %}
+                                    <option value="{{ race }}" {% if form_data and form_data['race'] == race %}selected{% endif %}>{{ race }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="gender" class="form-label">Gender</label>
+                            <select class="form-select" id="gender" name="gender" required>
+                                <option value="">Select Gender</option>
+                                {% for gender in label_encoders['Sex'].classes_ %}
+                                    <option value="{{ gender }}" {% if form_data and form_data['gender'] == gender %}selected{% endif %}>{{ gender }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="bi bi-calculator"></i> Predict Salary
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

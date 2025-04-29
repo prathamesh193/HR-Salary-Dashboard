@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4><i class="bi bi-speedometer2"></i> Dashboard Overview</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card text-white bg-success mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Average Salary</h5>
+                                <p class="card-text h2">${{ "%.2f"|format(metrics.r2 * 100000) }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-info mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Model R² Score</h5>
+                                <p class="card-text h2">{{ "%.2f"|format(metrics.r2) }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-warning mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Mean Squared Error</h5>
+                                <p class="card-text h2">{{ "%.2f"|format(metrics.mse) }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Salary Distribution</h5>
+            </div>
+            <div class="card-body">
+                <img src="data:image/png;base64,{{ plots.salary_dist }}" class="img-fluid" alt="Salary Distribution">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Salary by Department</h5>
+            </div>
+            <div class="card-body">
+                <img src="data:image/png;base64,{{ plots.dept_salary }}" class="img-fluid" alt="Salary by Department">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Feature Correlation Heatmap</h5>
+            </div>
+            <div class="card-body">
+                <img src="data:image/png;base64,{{ plots.corr_heatmap }}" class="img-fluid" alt="Correlation Heatmap">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Learning Curve</h5>
+            </div>
+            <div class="card-body">
+                <img src="data:image/png;base64,{{ plots.learning_curve }}" class="img-fluid" alt="Learning Curve">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Feature Importance</h5>
+            </div>
+            <div class="card-body">
+                <img src="data:image/png;base64,{{ plots.feature_importance }}" class="img-fluid" alt="Feature Importance">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Dataset Sample</h5>
+            </div>
+            <div class="card-body">
+                {{ data_head|safe }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
